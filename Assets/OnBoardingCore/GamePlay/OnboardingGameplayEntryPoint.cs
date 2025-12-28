@@ -3,11 +3,12 @@ using com.ksgames.core.gamecore.sceneservice.sceneentrypoint;
 using Lukomor.DI;
 using Lukomor.MVVM;
 using OnBoardingCore.Game;
+using OnBoardingCore.Game.ExampleTopGame;
 using UnityEngine;
 
 namespace OnBoardingCore.GamePlay
 {
-    public class OnboardingGameplayEntryPoint: SceneEntryPoint
+    public class OnboardingGameplayEntryPoint: SceneEntryPoint, IDisposable
     {
         
         // example //
@@ -32,8 +33,14 @@ namespace OnBoardingCore.GamePlay
         {
             base.RegisterViewModels();
 
-            var exampleGameViewModel = new OnboardingExampleGameViewModel();
+            var exampleGameService = _container.Resolve<ExampleGameService>();
+            var exampleGameViewModel = new OnboardingExampleGameViewModel(exampleGameService);
             ExampleGameView.Bind(exampleGameViewModel);
+        }
+
+        public void Dispose()
+        {
+            // TODO release managed resources here
         }
     }
 }
